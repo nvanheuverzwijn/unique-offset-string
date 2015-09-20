@@ -1,6 +1,18 @@
 # unique-offset-string
 Create a unique offset string used for overflow.
 
+# Installation
+
+Simply call `make`.
+```
+$ cd ~/unique-offset-string
+$ make
+$ ./unique-offset-string --usage
+Usage: unique-offset-string [-?V] [-p PATTERN] [--pattern=PATTERN] [--help]
+            [--usage] [--version] LENGTH
+```
+You can then move the executable in `/usr/bin/` if you want.
+
 # Usage
 
 The help section.
