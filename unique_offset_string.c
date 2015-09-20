@@ -1,43 +1,47 @@
 #include<stdio.h>
 #include<stdlib.h>
+#include"argparse.h"
+#include"pattern_parser.h"
 
 int main(int argc, char* argv[])
 {
-	if(argc != 2){
-		printf("USAGE: %s LENGTH\n", argv[0]);
-		printf("EXEMPLE: %s 200\n", argv[0]);
-		return 0;
+	int errno;
+	struct arguments args = parse_argument(argc, argv);
+	int size;
+	if(errno = pattern_length(args.pattern, &size)){
+		exit(errno);
 	}
-	int cpt_uppercase = 65;
-	int cpt_lowercase = 97;
-	int cpt_numeric = 48;
-	int length = atoi(argv[1]);
+
+	struct pattern_result presult[size];
+	if(errno = pattern_parse(args.pattern, presult, &size)){
+		exit(errno);
+	}
+
+	int length = args.length;
 	char str[length];
+	int bound;
 	for(int i = 0; i < length; i++){
-		// If not at the end of possibilities, reset numeric or lowercase.
-		if(cpt_numeric > 57){
-			cpt_numeric = 48;
-			cpt_lowercase++;
+		for(int j = size - 1; j > 0; j--){
+			if(errno = pattern_get_upper_bound(presult[j].type, &bound)){
+				exit(errno);
+			}	
+			if(presult[j].i > bound){
+				if(errno = pattern_get_lower_bound(presult[j].type, &bound)){
+					exit(errno);
+				}
+				presult[j].i = bound;
+				presult[j-1].i++;
+			}
 		}
-		if(cpt_lowercase > 122){
-			cpt_lowercase = 97;
-			cpt_uppercase++;
+		if(errno = pattern_get_upper_bound(presult[0].type, &bound)){
+			exit(errno);
 		}
-		// maximum limit
-		if(cpt_uppercase > 90 ){
+		if(presult[0].i > bound){
 			break;
 		}
-
-		// Append the char to the string
-		if((i)%3 == 0){
-			str[i] = (char)cpt_uppercase;
-		}
-		else if((i)%3 == 1){
-			str[i] = (char)cpt_lowercase;
-		}
-		else if((i)%3 == 2){
-			str[i] = (char)cpt_numeric;
-			cpt_numeric++;
+		str[i] = (char)presult[i%size].i;
+		if(i%size == size - 1){
+			presult[size - 1].i++;
 		}
 	}
 	str[length] = '\0';
