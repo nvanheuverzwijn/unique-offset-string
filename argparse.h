@@ -5,11 +5,11 @@
 #include"string.h"
 
 const char *argp_program_version = "1.0.0";
-const char *argp_program_bug_address = "nicolas.vanheu@gmail.com";
+const char *argp_program_bug_address = "the github page (https://github.com/nvanheuverzwijn/unique-offset-string)";
 static char doc[] = "Generates a unique offset string.";
 static char args_doc[] = "LENGTH";
 static struct argp_option options[] = {
-  {"pattern",  'p', "PATTERN", 0,  "Specify a pattern for the output like 'A0aA'. Default value is 'A0aA'" },
+  {"pattern",  'p', "PATTERN", 0,  "Specify a pattern for the output like 'A0aA' Default value is 'A0aA'" },
   { 0 }
 };
 struct arguments
