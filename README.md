@@ -27,7 +27,7 @@ $ ./unique-offset-string 8
 A0aAA0aB
 ```
 
-You can specify a pattern using the `-p` option.
+You can specify a pattern using the `-p` option. Only the uppercase(A), lowercase(a) and numeric(0) ASCII value are supported for the pattern option.
 ```
 $ ./unique-offset-string -p A0a 10
 A0aA0bA0cA
